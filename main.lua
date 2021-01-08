@@ -76,7 +76,7 @@ while start == 1 do
 		start = 0
 		if info == 0 then
 			info = 1
-			io.write("Some information about the game: This is a simple rock paper scissors project that I made for fun (Though I am still updating it). You can say 'score' at any time to display your score as well as the AI's. You can also say 'main' to toggle the main menu asking if you want to keep playing. \n \n")
+			io.write("Some information about the game: This is a simple project I am making for fun. You can say 'score' at any time to display your score as well as the AI's. You can also say 'main' to toggle the main menu asking if you want to keep playing. \n \n")
 		end
   	if played == 0 then
   	  io.write("Do you want to play the game? \n ")
