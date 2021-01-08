@@ -5,6 +5,7 @@ math.randomseed(os.time())
 local start = 1
 local played = 0
 local info = 0
+local main = true
 
 local display = require "displayScores"
 local check = require "checkScores"
@@ -59,38 +60,49 @@ local function askPlayer()
 		display()
 		played = 1
 		start = 1
-  end
-end
-
-while start == 1 do
-  start = 0
-	if info == 0 then
-		info = 1
-		io.write("Some information about the game: This is a simple rock paper scissors project that I made for fun (Though I am still updating it). You can say 'score' at any time to display your \nscore as well as the AI's. I am planning on adding more features such as ASCII art so stay\ntuned!\n \n")
-	end
-  if played == 0 then
-    io.write("Do you want to play the game? \n ")
-  else
-    io.write("\nDo you want to keep playing? \n ")
-  end
-  local answ = tostring(io.read())
-  local loweransw = answ:lower()
-  if loweransw == "yes" then
-    askPlayer()
-  elseif loweransw == "no" then
-    io.write("Goodbye!")
-  elseif loweransw == "score" then
-		display()
-		played = 1
+  elseif loweransw == "main" and main == true then
+		main = false
+		io.write("Main menu turned off! \n \n")
+		start = 1
+	elseif loweransw == "main" and main == false then
+		main = true
+		io.write("Main menu turned on! \n \n")
 		start = 1
 	end
 end
 
-local function start()
-  io.write("Do you want to go first? \n")
-  local answ = tostring(io.read())
-  local loweransw = answ:lower()
-  if loweransw == "yes" then
-    askPlayer()
+while start == 1 do
+	if main == true then
+		start = 0
+		if info == 0 then
+			info = 1
+			io.write("Some information about the game: This is a simple rock paper scissors project that I made for fun (Though I am still updating it). You can say 'score' at any time to display your score as well as the AI's. You can also say 'main' to toggle the main menu asking if you want to keep playing. \n \n")
+		end
+  	if played == 0 then
+  	  io.write("Do you want to play the game? \n ")
+  	else
+  	  io.write("\nDo you want to keep playing? \n ")
+  	end
+  	local answ = tostring(io.read())
+  	local loweransw = answ:lower()
+  	if loweransw == "yes" then
+  	  askPlayer()
+  	elseif loweransw == "no" then
+  	  io.write("Goodbye!")
+  	elseif loweransw == "score" then
+			display()
+			played = 1
+			start = 1
+		elseif loweransw == "main" and main == true then
+			main = false
+			io.write("Main menu turned off! \n \n")
+			askPlayer()
+		elseif loweransw == "main" and main == false then
+			main = true
+			io.write("Main menu turned on! \n \n")
+			askPlayer()
+		end
+	else
+		askPlayer()
 	end
 end
