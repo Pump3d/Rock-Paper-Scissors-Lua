@@ -6,50 +6,12 @@ local start = 1
 local played = 0
 local info = 0
 
-local scores = {
+local display = require "displayScores"
+local check = require "checkScores"
+_G.scores = {
   playerScore = 0,
   aiScore = 0
 }
-
-local function displayScores()
-	if scores.playerScore == scores.aiScore then
-		if scores.playerScore == 1 then
-			io.write("You and the AI both have " .. scores.playerScore .. " point.\n")
-		else
-			io.write("You and the AI both have " .. scores.playerScore .. " points. \n")
-		end
-	elseif scores.playerScore ~= 1 and scores.aiScore == 1 then
-		io.write("You have " .. scores.playerScore .. " points, and the AI has " .. scores.aiScore .. " point. \n")
-	elseif playerScore == 1 and aiScore ~= 1 then
-		io.write("You have " .. scores.playerScore .. " point, and the AI has " .. scores.aiScore .. " points. \n")
-	elseif playerScore ~= 1 and aiScore ~= 1 then
-		io.write("You have " .. scores.playerScore .. " points, and the AI has " .. scores.aiScore .. " points. \n")
-	end
-end
-
-local function checkScores()
-  if scores.playerScore > scores.aiScore then
-    local aiBehind = scores.playerScore - scores.aiScore
-    if aiBehind == 1 then
-      return("You are in the lead! The AI is " .. aiBehind .. " point behind you")
-    else
-      return("You are in the lead! The AI is " .. aiBehind .. " points behind you")
-    end
-  elseif scores.aiScore > scores.playerScore then
-    local playerBehind = scores.aiScore - scores.playerScore
-    if playerBehind == 1 then
-      return("The AI is in the lead! They are " .. playerBehind .. " point ahead of you")
-    else
-      return("The AI is in the lead! They are " .. playerBehind .. " points ahead of you")
-    end
-  elseif scores.playerScore == scores.aiScore then
-    if scores.playerScore == 1 then
-      return("The AI and you are in a tie at " .. scores.playerScore .. " point!")
-    else
-      return("The AI and you are in a tie at " .. scores.playerScore .. " points!")
-    end
-  end
-end
 
 local function askPlayer()
   local ai = math.random(1, #answers)
@@ -65,14 +27,14 @@ local function askPlayer()
       start = 1
    elseif loweransw == answers[i] and ai == i + 1 then
       scores.aiScore = scores.aiScore + 1
-      io.write("The AI wins! " .. checkScores() .. " and guessed " .. answers[ai] .. ". \n")
+      io.write("The AI wins! " .. check() .. " and guessed " .. answers[ai] .. ". \n")
       if played == 0 then
         played = 1
       end
       start = 1
    elseif loweransw == answers[i + 1] and ai == i then
       scores.playerScore = scores.playerScore + 1
-      io.write("You win! " .. checkScores() .. " and guessed " .. answers[ai] .. ". \n")
+      io.write("You win! " .. check() .. " and guessed " .. answers[ai] .. ". \n")
       if played == 0 then
         played = 1
       end
@@ -81,20 +43,20 @@ local function askPlayer()
   end
   if loweransw == "scissors" and answers[ai] == "rock" then
     scores.aiScore = scores.aiScore + 1
-    io.write("The AI wins! " .. checkScores() .. " and guessed " .. answers[ai] .. ". \n")
+    io.write("The AI wins! " .. check() .. " and guessed " .. answers[ai] .. ". \n")
     if played == 0 then
       played = 1
     end
     start = 1
   elseif loweransw == "rock" and answers[ai] == "scissors" then
     scores.playerScore = scores.playerScore + 1
-    io.write("You win! " .. checkScores() .. " and guessed " .. answers[ai] .. ". \n")
+    io.write("You win! " .. check() .. " and guessed " .. answers[ai] .. ". \n")
     if played == 0 then
       played = 1
     end
     start = 1
 	elseif loweransw == "score" then
-		displayScores()
+		display()
 		played = 1
 		start = 1
   end
@@ -118,7 +80,7 @@ while start == 1 do
   elseif loweransw == "no" then
     io.write("Goodbye!")
   elseif loweransw == "score" then
-		displayScores()
+		display()
 		played = 1
 		start = 1
 	end
